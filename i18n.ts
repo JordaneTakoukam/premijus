@@ -1,10 +1,19 @@
 import { getRequestConfig } from 'next-intl/server';
+import { routing } from './i18n/routing';
 
 export default getRequestConfig(async ({ locale }) => {
-  if (!locale) {
-    // Définissez une valeur par défaut ou gérez l'absence de locale
-    locale = 'fr'; // Exemple : utilisation du français comme langue par défaut
-  }
-  const messages = (await import(`./messages/${locale}.json`)).default;
-  return { locale, messages };
+  // Si aucune locale n'est fournie, utilisez la locale par défaut
+  const finalLocale = locale || routing.defaultLocale;
+  
+  // Chargez les messages pour la locale
+  const messages = (await import(`./messages/${finalLocale}.json`)).default;
+  
+  // Retournez l'objet de configuration avec la locale et les messages
+  return {
+    locale: finalLocale,
+    messages,
+    // Optionnel : vous pouvez ajouter d'autres configurations ici
+    // timeZone: 'Europe/Belgrade',
+    // now: new Date()
+  };
 });

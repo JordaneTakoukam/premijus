@@ -8,6 +8,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { Suspense } from "react";
+import LanguageLoading from "@/components/LanguageLoading";
 
 
 const geistSans = Geist({
@@ -33,6 +35,7 @@ export default async function RootLayout({
     params: Promise<{ locale: string }>;
 
 }) {
+
     // Ensure that the incoming `locale` is valid
     const { locale } = await params;
     if (!hasLocale(routing.locales, locale)) {
@@ -43,11 +46,14 @@ export default async function RootLayout({
     return (
         <html lang={locale} suppressHydrationWarning>
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                <ThemeProvider>
-                    <NextIntlClientProvider>
-                        {children}
-                    </NextIntlClientProvider>
-                </ThemeProvider>
+                <Suspense fallback={<LanguageLoading />}>
+                    <ThemeProvider>
+                        <NextIntlClientProvider>
+                            {children}
+                        </NextIntlClientProvider>
+                    </ThemeProvider>
+                </Suspense>
+
             </body>
         </html>
     );

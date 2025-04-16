@@ -14,8 +14,8 @@ import { GlobeIcon } from "lucide-react";
 const locales = [
     { code: "fr", label: "Français", flag: "🇫🇷" },
     { code: "en", label: "English", flag: "🇬🇧" },
-    { code: "sr", label: "Српски", flag: "🇷🇸" },
-    { code: "hr", label: "Hrvatski", flag: "🇭🇷" },
+    { code: "hr", label: "Hrvatski", flag: "🇭🇷" }, { code: "sr", label: "Srpski", flag: "🇷🇸" }, // Serbe en alphabet latin
+
 ];
 
 export default function LanguageSwitcher() {
@@ -23,10 +23,22 @@ export default function LanguageSwitcher() {
     const router = useRouter();
     const pathname = usePathname();
 
+
+
     const handleChange = (locale: string) => {
-        const segments = pathname.split("/");
-        segments[1] = locale;
-        router.push(segments.join("/"));
+
+        // Découpe l'URL en segments et filtre les éléments vides
+        const segments = pathname.split("/").filter(Boolean);
+        // Si le premier segment correspond à une locale, on le remplace
+        if (segments.length > 0 && locales.some((l) => l.code === segments[0])) {
+            segments[0] = locale;
+        } else {
+            // Sinon, on insère la nouvelle locale en début d'URL
+            segments.unshift(locale);
+        }
+        const newPath = `/${segments.join("/")}`;
+        // router.replace est utilisé ici pour éviter de créer une nouvelle entrée dans l'historique
+        router.replace(newPath);
     };
 
     return (
@@ -38,10 +50,13 @@ export default function LanguageSwitcher() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                {locales.map((locale) => (
-                    <DropdownMenuItem key={locale.code} onClick={() => handleChange(locale.code)}>
-                        <span className="mr-2">{locale.flag}</span>
-                        {locale.label}
+                {locales.map((localeObj) => (
+                    <DropdownMenuItem
+                        key={localeObj.code}
+                        onClick={() => handleChange(localeObj.code)}
+                    >
+                        <span className="mr-2">{localeObj.flag}</span>
+                        {localeObj.label}
                     </DropdownMenuItem>
                 ))}
             </DropdownMenuContent>
