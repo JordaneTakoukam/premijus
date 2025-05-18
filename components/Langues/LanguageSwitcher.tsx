@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { GlobeIcon } from "lucide-react";
 
 const locales = [
-    { code: "sr", label: "Srpski", flag: "🇷🇸" }, // Serbe en alphabet latin
+    { code: "sr-Latn", label: "Srpski", flag: "🇷🇸" }, // Serbe en alphabet latin
     { code: "en", label: "English", flag: "🇬🇧" },
     { code: "hr", label: "Hrvatski", flag: "🇭🇷" },
     { code: "fr", label: "Français", flag: "🇫🇷" },

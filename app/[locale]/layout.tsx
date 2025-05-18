@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/Themes/ThemeProvider";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import siteMetadata from "@/configs/siteMetadata";
+import siteConfig from "@/configs/siteConfig";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: siteMetadata.siteNameShort,
-    description: siteMetadata.description,
+    title: siteConfig.siteNameShort,
+    description: siteConfig.description,
 };
 
 export default async function RootLayout({

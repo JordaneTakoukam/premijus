@@ -1,6 +1,6 @@
 // siteMetadata.ts
 
-const siteMetadata = {
+const siteConfig = {
     siteNameShort: "Premijus",
     siteNameFull: "Premijus Doo",
     description: "",
@@ -24,8 +24,9 @@ const siteMetadata = {
     pib: "110164390",
     copyright: `© 2018-${new Date().getFullYear()}`,
     siteUrl: "https://www.premijus.rs",
-    defaultLocale: "fr-FR",
-    facebookLink: ""
+    facebookLink: "",
+    defaultLocale: 'sr-Latn', 
+
 };
 
-export default siteMetadata;
+export default siteConfig;
