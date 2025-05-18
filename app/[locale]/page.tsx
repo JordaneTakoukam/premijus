@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import ThemeToggle from "@/components/theme-toggle";
-import LanguageSwitcher from "@/components/language-switcher";
+import ThemeToggle from "@/components/Themes/ThemeToggle";
+import LanguageSwitcher from "@/components/Langues/LanguageSwitcher";
 
 export default function Home() {
   const t = useTranslations();
