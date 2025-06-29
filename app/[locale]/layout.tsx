@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: siteConfig.siteNameShort,
+    title: siteConfig.siteNameFull,
     description: siteConfig.description,
 };
 

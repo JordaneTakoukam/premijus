@@ -25,7 +25,6 @@ export default function LanguageSwitcher() {
     const pathname = usePathname();
 
 
-
     const handleChange = (locale: string) => {
 
         // Découpe l'URL en segments et filtre les éléments vides
