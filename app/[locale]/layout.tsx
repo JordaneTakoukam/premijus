@@ -4,10 +4,11 @@ import "./../globals.css";
 import { ThemeProvider } from "@/components/Themes/ThemeProvider";
 
 // navigation
-import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import siteConfig from "@/configs/siteConfig";
+import { getRequestConfig } from "@/i18n/request"; // Importez votre configuration
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -26,14 +27,21 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
     children,
-    params,
+    params: { locale },
 }: {
     children: React.ReactNode;
-    params: Promise<{ locale: string }>;
+    params: { locale: string };
 }) {
-    // Récupération et vérification de la locale
-    const { locale } = await params;
-    if (!hasLocale(routing.locales, locale)) {
+    // Chargez les messages de manière asynchrone
+    let messages;
+    try {
+        const config = await getRequestConfig({ locale });
+        messages = config.messages;
+        
+        if (!routing.locales.includes(locale as any)) {
+            notFound();
+        }
+    } catch (error) {
         notFound();
     }
 
@@ -41,7 +49,11 @@ export default async function RootLayout({
         <html lang={locale} suppressHydrationWarning>
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
                 <ThemeProvider>
-                    <NextIntlClientProvider>
+                    <NextIntlClientProvider 
+                        locale={locale}
+                        messages={messages}
+                        timeZone="Europe/Paris" // Adaptez selon vos besoins
+                    >
                         {children}
                     </NextIntlClientProvider>
                 </ThemeProvider>
